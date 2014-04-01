@@ -22,6 +22,7 @@ using Gravatar;
 using ResourceManager;
 using GitUI.UserControls.RevisionGridClasses;
 using GitUI.CommandsDialogs.BrowseDialog;
+using Review;
 
 namespace GitUI
 {
@@ -788,6 +789,13 @@ namespace GitUI
         {
             try
             {
+	            try
+	            {
+		            reviews = new ReviewDatabase().GetReviews();
+	            }
+	            catch
+	            {
+	            }
                 RevisionGraphDrawStyle = RevisionGraphDrawStyleEnum.DrawNonRelativesGray;
                 IsMessageMultilineDataGridViewColumn.Visible = AppSettings.ShowIndicatorForMultilineMessage;
 
@@ -1174,6 +1182,7 @@ namespace GitUI
 
             int graphColIndex = GraphDataGridViewColumn.Index;
             int messageColIndex = MessageDataGridViewColumn.Index;
+			int reviewColIndex = ReviewDataGridViewColumn.Index;
             int authorColIndex = AuthorDataGridViewColumn.Index;
             int dateColIndex = DateDataGridViewColumn.Index;
             int isMsgMultilineColIndex = IsMessageMultilineDataGridViewColumn.Index;
@@ -1388,6 +1397,18 @@ namespace GitUI
                     e.Graphics.DrawString(text, rowFont, foreBrush,
                                           new PointF(e.CellBounds.Left, e.CellBounds.Top + 4));
                 }
+                else if (columnIndex == reviewColIndex)
+                {
+                    var text = (string)e.FormattedValue;
+	                var brush = foreBrush;
+	                if (text == "A" || text == "D")
+	                {
+		                Color color = text == "A" ? Color.MediumSeaGreen : Color.Maroon;
+		                brush = new SolidBrush(color);
+	                }
+	                e.Graphics.DrawString(text, rowFont, brush,
+                                          new PointF(e.CellBounds.Left, e.CellBounds.Top + 4));
+                }
                 else if (columnIndex == dateColIndex)
                 {
                     var time = AppSettings.ShowAuthorDate ? revision.AuthorDate : revision.CommitDate;
@@ -1483,6 +1504,7 @@ namespace GitUI
 
             int graphColIndex = GraphDataGridViewColumn.Index;
             int messageColIndex = MessageDataGridViewColumn.Index;
+            int reviewColIndex = ReviewDataGridViewColumn.Index;
             int authorColIndex = AuthorDataGridViewColumn.Index;
             int dateColIndex = DateDataGridViewColumn.Index;
             int isMsgMultilineColIndex = IsMessageMultilineDataGridViewColumn.Index;
@@ -1498,6 +1520,13 @@ namespace GitUI
             else if (columnIndex == authorColIndex)
             {
                 e.Value = revision.Author ?? "";
+            }
+            else if (columnIndex == reviewColIndex)
+            {
+	            ReviewStatus status = reviews.ContainsKey(revision.Guid)
+		            ? reviews[revision.Guid].Status
+		            : ReviewStatus.Unknown;
+	            e.Value = status.ToString().Substring(0, 1);
             }
             else if (columnIndex == dateColIndex)
             {
@@ -2413,8 +2442,9 @@ namespace GitUI
         }
 
         private bool _settingsLoaded;
+	    private IDictionary<string, ReviewInfo> reviews = new Dictionary<string, ReviewInfo>();
 
-        private void RunScript(object sender, EventArgs e)
+	    private void RunScript(object sender, EventArgs e)
         {
             if (_settingsLoaded == false)
             {

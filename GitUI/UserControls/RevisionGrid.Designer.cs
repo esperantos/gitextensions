@@ -68,6 +68,7 @@ namespace GitUI
             this.GraphDataGridViewColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MessageDataGridViewColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsMessageMultilineDataGridViewColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ReviewDataGridViewColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AuthorDataGridViewColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DateDataGridViewColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mainContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -151,6 +152,7 @@ namespace GitUI
             this.Revisions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Revisions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.GraphDataGridViewColumn,
+            this.ReviewDataGridViewColumn,
             this.MessageDataGridViewColumn,
             this.AuthorDataGridViewColumn,
             this.DateDataGridViewColumn,
@@ -219,6 +221,14 @@ namespace GitUI
             this.IsMessageMultilineDataGridViewColumn.Name = "IsMessageMultiline";
             this.IsMessageMultilineDataGridViewColumn.ReadOnly = true;
             this.IsMessageMultilineDataGridViewColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+			// Review
+            // 
+			this.ReviewDataGridViewColumn.HeaderText = "Review";
+			this.ReviewDataGridViewColumn.Name = "Review";
+			this.ReviewDataGridViewColumn.ReadOnly = true;
+			this.ReviewDataGridViewColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.ReviewDataGridViewColumn.Width = 20;
             // 
             // Author
             // 
@@ -768,6 +778,7 @@ namespace GitUI
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.DataGridViewTextBoxColumn MessageDataGridViewColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ReviewDataGridViewColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn AuthorDataGridViewColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateDataGridViewColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn GraphDataGridViewColumn;

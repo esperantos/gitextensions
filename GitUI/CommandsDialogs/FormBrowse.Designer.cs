@@ -120,6 +120,8 @@ namespace GitUI.CommandsDialogs
             this.blameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.findInDiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DiffText = new GitUI.Editor.FileViewer();
+            this.ReviewTabPage = new System.Windows.Forms.TabPage();
+            this.ReviewControl = new GitUI.UserControls.ReviewControl();
             this.TreeContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
@@ -257,6 +259,7 @@ namespace GitUI.CommandsDialogs
             this.DiffSplitContainer.Panel2.SuspendLayout();
             this.DiffSplitContainer.SuspendLayout();
             this.DiffContextMenu.SuspendLayout();
+            this.ReviewTabPage.SuspendLayout();
             this.TreeContextMenu.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -650,6 +653,7 @@ namespace GitUI.CommandsDialogs
             this.CommitInfoTabControl.Controls.Add(this.CommitInfoTabPage);
             this.CommitInfoTabControl.Controls.Add(this.TreeTabPage);
             this.CommitInfoTabControl.Controls.Add(this.DiffTabPage);
+            this.CommitInfoTabControl.Controls.Add(this.ReviewTabPage);
             this.CommitInfoTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CommitInfoTabControl.Location = new System.Drawing.Point(0, 0);
             this.CommitInfoTabControl.Margin = new System.Windows.Forms.Padding(4);
@@ -1118,6 +1122,25 @@ namespace GitUI.CommandsDialogs
             this.DiffText.Name = "DiffText";
             this.DiffText.Size = new System.Drawing.Size(926, 332);
             this.DiffText.TabIndex = 0;
+            // 
+            // ReviewTabPage
+            // 
+            this.ReviewTabPage.Controls.Add(this.ReviewControl);
+            this.ReviewTabPage.Location = new System.Drawing.Point(4, 24);
+            this.ReviewTabPage.Name = "ReviewTabPage";
+            this.ReviewTabPage.Size = new System.Drawing.Size(915, 261);
+            this.ReviewTabPage.TabIndex = 3;
+            this.ReviewTabPage.Text = "Review";
+            this.ReviewTabPage.UseVisualStyleBackColor = true;
+            // 
+            // ReviewControl
+            // 
+            this.ReviewControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ReviewControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ReviewControl.Location = new System.Drawing.Point(0, 0);
+            this.ReviewControl.Name = "ReviewControl";
+            this.ReviewControl.Size = new System.Drawing.Size(915, 261);
+            this.ReviewControl.TabIndex = 0;
             // 
             // TreeContextMenu
             // 
@@ -1956,6 +1979,23 @@ namespace GitUI.CommandsDialogs
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(191, 6);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ClickThrough = true;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.dashboardToolStripMenuItem,
+            this.repositoryToolStripMenuItem,
+            this.commandsToolStripMenuItem,
+            this._repositoryHostsToolStripMenuItem,
+            this.pluginsToolStripMenuItem,
+            this.toolsToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(923, 24);
+            this.menuStrip1.TabIndex = 3;
+            // 
             // FormBrowse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -2003,6 +2043,7 @@ namespace GitUI.CommandsDialogs
 #endif
             this.DiffSplitContainer.ResumeLayout(false);
             this.DiffContextMenu.ResumeLayout(false);
+            this.ReviewTabPage.ResumeLayout(false);
             this.TreeContextMenu.ResumeLayout(false);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
@@ -2211,5 +2252,7 @@ namespace GitUI.CommandsDialogs
         private ToolStripMenuItem commitcountPerUserToolStripMenuItem;
         private ToolStripMenuItem gitcommandLogToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator7;
+		private TabPage ReviewTabPage;
+		private UserControls.ReviewControl ReviewControl;
     }
 }

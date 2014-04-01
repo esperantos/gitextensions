@@ -235,6 +235,12 @@
     <Compile Include="UserControls\GotoUserManualControl.Designer.cs">
       <DependentUpon>GotoUserManualControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ReviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ReviewControl.Designer.cs">
+      <DependentUpon>ReviewControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\RevisionGridClasses\CopyToClipboardMenuHelper.cs" />
     <Compile Include="UserControls\RevisionGridClasses\CaptionCustomMenuRenderer.cs" />
     <Compile Include="UserControls\RevisionGridClasses\GitRefListsForRevision.cs" />
@@ -1145,6 +1151,9 @@
     <EmbeddedResource Include="UserControls\RemotesComboboxControl.resx">
       <DependentUpon>RemotesComboboxControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ReviewControl.resx">
+      <DependentUpon>ReviewControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\RevisionGridClasses\DvcsGraph.resx">
       <DependentUpon>DvcsGraph.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1466,6 +1475,10 @@
       <Project>{27559302-F35E-4B62-A6EC-11FF21A5FA6F}</Project>
       <Name>GitUIPluginInterfaces</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Review\Review.csproj">
+      <Project>{23657395-bdbc-4be1-8c6a-cd4c58d77959}</Project>
+      <Name>Review</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

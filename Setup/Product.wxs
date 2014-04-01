@@ -91,6 +91,9 @@
             <Component Id="GitUI.dll" Guid="*">
                 <File Source="..\GitExtensions\bin\Release\GitUI.dll" />
             </Component>
+            <Component Id="Review.dll" Guid="*">
+                <File Source="..\Review\bin\Release\Review.dll" />
+            </Component>
             <Component Id="NetSpell.SpellChecker.dll" Guid="*">
                 <File Source="..\NetSpell.SpellChecker\bin\Release\NetSpell.SpellChecker.dll" />
             </Component>
@@ -108,6 +111,12 @@
             </Component>
             <Component Id="Git.hub.dll" Guid="*">
                 <File Source="..\Externals\Git.hub\Git.hub\bin\Release\Git.hub.dll" />
+            </Component>
+            <Component Id="Npgsql.dll" Guid="*">
+                <File Source="..\Externals\Npgsql.2.1.1\Npgsql.dll" />
+            </Component>
+            <Component Id="Mono.Security.dll" Guid="*">
+                <File Source="..\Externals\Npgsql.2.1.1\Mono.Security.dll" />
             </Component>
             <Component Id="PSTaskDialog.dll" Guid="*">
                 <File Source="..\bin\PSTaskDialog.dll" />
@@ -490,6 +499,9 @@
             <ComponentRef Id="Gravatar.dll" />
             <ComponentRef Id="GitCommands.dll" />
             <ComponentRef Id="GitUI.dll" />
+            <ComponentRef Id="Review.dll" />
+            <ComponentRef Id="Npgsql.dll" />
+            <ComponentRef Id="Mono.Security.dll" />
             <ComponentRef Id="ICSharpCode.TextEditor.dll" />
             <ComponentRef Id="PSTaskDialog.dll" />
             <ComponentRef Id="Microsoft.WindowsAPICodePack.dll" />

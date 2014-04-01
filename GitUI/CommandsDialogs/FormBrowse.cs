@@ -911,6 +911,7 @@ namespace GitUI.CommandsDialogs
                 FillDiff();
                 FillCommitInfo();
                 FillBuildReport();
+				FillReviewInfo();
             }
             RevisionGrid.IndexWatcher.Reset();
         }
@@ -1052,6 +1053,24 @@ namespace GitUI.CommandsDialogs
             
             var children = RevisionGrid.GetRevisionChildren(revision.Guid);
             RevisionInfo.SetRevisionWithChildren(revision, children);
+        }
+
+		private void FillReviewInfo()
+        {
+			if (CommitInfoTabControl.SelectedTab != ReviewTabPage)
+				return;
+
+			if (selectedRevisionUpdatedTargets.HasFlag(UpdateTargets.ReviewInfo))
+				return;
+
+			selectedRevisionUpdatedTargets |= UpdateTargets.ReviewInfo;
+
+			if (RevisionGrid.GetSelectedRevisions().Count == 0)
+				return;
+
+			var revision = RevisionGrid.GetSelectedRevisions()[0];
+
+			ReviewControl.SetRevision(revision);
         }
 
         private BuildReportTabPageExtension BuildReportTabPageExtension;
@@ -1249,7 +1268,8 @@ namespace GitUI.CommandsDialogs
             None = 1,
             DiffList = 2,
             FileTree = 4,
-            CommitInfo = 8
+            CommitInfo = 8,
+            ReviewInfo = 16
         }
 
         private UpdateTargets selectedRevisionUpdatedTargets = UpdateTargets.None;
@@ -1278,6 +1298,7 @@ namespace GitUI.CommandsDialogs
                 FillDiff();
                 FillCommitInfo();
                 FillBuildReport();
+				FillReviewInfo();
             }
             catch (Exception ex)
             {
@@ -1628,6 +1649,7 @@ namespace GitUI.CommandsDialogs
             FillDiff();
             FillCommitInfo();
             FillBuildReport();
+	        FillReviewInfo();
         }
 
         private void DiffFilesSelectedIndexChanged(object sender, EventArgs e)
