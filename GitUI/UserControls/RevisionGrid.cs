@@ -1413,13 +1413,30 @@ namespace GitUI
                 {
                     var text = (string)e.FormattedValue;
 	                var brush = foreBrush;
-	                if (text == "A" || text == "D")
-	                {
-		                Color color = text == "A" ? Color.MediumSeaGreen : Color.Maroon;
-		                brush = new SolidBrush(color);
-	                }
-	                e.Graphics.DrawString(text, rowFont, brush,
-                                          new PointF(e.CellBounds.Left, e.CellBounds.Top + 4));
+                    if ((e.State & DataGridViewElementStates.Selected) != DataGridViewElementStates.Selected && text != "U")
+                    {
+                        Color backColor;
+                        switch (text)
+                        {
+                            case "A":
+                                backColor = Color.DarkGreen;
+                                break;
+                            case "D":
+                                backColor = Color.Maroon;
+                                break;
+                            case "C":
+                                backColor = Color.DarkOrange;
+                                break;
+                            default:
+                                backColor = Color.DarkCyan;
+                                break;
+                        }
+                        e.Graphics.FillRectangle(new SolidBrush(backColor), e.CellBounds);
+                        brush = new SolidBrush(Color.WhiteSmoke);
+                    }
+                    var left = (e.CellBounds.Width - e.Graphics.MeasureString(text, rowFont).Width) / 2;
+                    left = Math.Max(0, left);
+                    e.Graphics.DrawString(text, rowFont, brush, new PointF(e.CellBounds.Left + left, e.CellBounds.Top + 4));
                 }
                 else if (columnIndex == dateColIndex)
                 {
