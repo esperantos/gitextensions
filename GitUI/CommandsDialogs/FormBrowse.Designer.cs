@@ -628,7 +628,7 @@ namespace GitUI.CommandsDialogs
             // 
             // MainSplitContainer.Panel1
             // 
-            this.MainSplitContainer.Panel1.Controls.Add(this.RevisionGrid);
+            this.MainSplitContainer.Panel1.Controls.Add(this.revisionsAndStatistcisLayoutPanel);
             // 
             // MainSplitContainer.Panel2
             // 
