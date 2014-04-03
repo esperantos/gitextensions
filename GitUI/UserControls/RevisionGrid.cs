@@ -2378,6 +2378,20 @@ namespace GitUI
             Clipboard.SetText(GetRevision(LastRow).Guid);
         }
 
+        private void MarkRevisionReviewAcceptedToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            try
+            {
+                var db = new ReviewDatabase();
+                var user = Module.GetEffectiveSetting("user.email").ToLower();
+                foreach (var revision in GetSelectedRevisions())
+                    db.ChangeStatus(revision.Guid, ReviewStatus.Accepted, user);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
         private void MarkRevisionAsBadToolStripMenuItemClick(object sender, EventArgs e)
         {
             ContinueBisect(GitBisectOption.Bad);

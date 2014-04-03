@@ -37,24 +37,30 @@ namespace Review
         {
             using (NpgsqlConnection connection = OpenConnection())
             {
-                using (
-                    var command = new NpgsqlCommand(
-                        "select commit_hash, status, comment, change_author from review where commit_hash = :commit_hash",
-                        connection))
+                return ExecuteGetReviewInfoCommands(commitHash, connection);
+            }
+        }
+
+        private static ReviewInfo ExecuteGetReviewInfoCommands(string commitHash, NpgsqlConnection connection,
+            NpgsqlTransaction transaction = null)
+        {
+            using (
+                var command = new NpgsqlCommand(
+                    "select commit_hash, status, comment, change_author from review where commit_hash = :commit_hash",
+                    connection, transaction))
+            {
+                command.Parameters.Add(new NpgsqlParameter("commit_hash", commitHash));
+                using (NpgsqlDataReader dr = command.ExecuteReader())
                 {
-                    command.Parameters.Add(new NpgsqlParameter("commit_hash", commitHash));
-                    using (NpgsqlDataReader dr = command.ExecuteReader())
+                    while (dr.Read())
                     {
-                        while (dr.Read())
+                        return new ReviewInfo
                         {
-                            return new ReviewInfo
-                            {
-                                CommitHash = dr.GetString(0),
-                                Status = (ReviewStatus) dr.GetInt32(1),
-                                Comment = dr.GetString(2),
-                                ChangeAuthor = dr.IsDBNull(3) ? null : dr.GetString(3),
-                            };
-                        }
+                            CommitHash = dr.GetString(0),
+                            Status = (ReviewStatus) dr.GetInt32(1),
+                            Comment = dr.IsDBNull(2) ? null : dr.GetString(2),
+                            ChangeAuthor = dr.IsDBNull(3) ? null : dr.GetString(3),
+                        };
                     }
                 }
             }
@@ -87,53 +93,75 @@ namespace Review
 
         public void Save(ReviewInfo reviewInfo)
         {
-            string commitHash = reviewInfo.CommitHash;
-            var status = (int) reviewInfo.Status;
-            string comment = reviewInfo.Comment;
-            string changeAuthor = reviewInfo.ChangeAuthor;
             using (NpgsqlConnection connection = OpenConnection())
             {
                 using (NpgsqlTransaction transaction = connection.BeginTransaction())
                 {
-                    long count;
-                    using (
-                        var countCommand =
-                            new NpgsqlCommand("select count(*) from review where commit_hash = :commit_hash", connection,
-                                transaction))
-                    {
-                        countCommand.Parameters.Add(new NpgsqlParameter("commit_hash", commitHash));
-                        count = (long) countCommand.ExecuteScalar();
-                    }
-                    if (count == 0)
-                    {
-                        using (
-                            var countCommand =
-                                new NpgsqlCommand(
-                                    "insert into review (commit_hash, status, comment, change_author) VALUES (:commit_hash, :status, :comment, :change_author)",
-                                    connection, transaction))
-                        {
-                            countCommand.Parameters.Add(new NpgsqlParameter("commit_hash", commitHash));
-                            countCommand.Parameters.Add(new NpgsqlParameter("status", status));
-                            countCommand.Parameters.Add(new NpgsqlParameter("comment", comment));
-                            countCommand.Parameters.Add(new NpgsqlParameter("change_author", changeAuthor));
-                            countCommand.ExecuteNonQuery();
-                        }
-                    }
-                    else
-                    {
-                        using (
-                            var countCommand =
-                                new NpgsqlCommand(
-                                    "update review set status=:status, comment=:comment, change_author=:change_author where commit_hash=:commit_hash",
-                                    connection, transaction))
-                        {
-                            countCommand.Parameters.Add(new NpgsqlParameter("commit_hash", commitHash));
-                            countCommand.Parameters.Add(new NpgsqlParameter("status", status));
-                            countCommand.Parameters.Add(new NpgsqlParameter("comment", comment));
-                            countCommand.Parameters.Add(new NpgsqlParameter("change_author", changeAuthor));
-                            countCommand.ExecuteNonQuery();
-                        }
-                    }
+                    ExecuteSaveCommands(reviewInfo, connection, transaction);
+                    transaction.Commit();
+                }
+            }
+        }
+
+        private static void ExecuteSaveCommands(ReviewInfo reviewInfo, NpgsqlConnection connection,
+            NpgsqlTransaction transaction)
+        {
+            string commitHash = reviewInfo.CommitHash;
+            var status = (int) reviewInfo.Status;
+            string comment = reviewInfo.Comment;
+            string changeAuthor = reviewInfo.ChangeAuthor;
+
+            long count;
+            using (
+                var countCommand =
+                    new NpgsqlCommand("select count(*) from review where commit_hash = :commit_hash", connection,
+                        transaction))
+            {
+                countCommand.Parameters.Add(new NpgsqlParameter("commit_hash", commitHash));
+                count = (long) countCommand.ExecuteScalar();
+            }
+            if (count == 0)
+            {
+                using (
+                    var countCommand =
+                        new NpgsqlCommand(
+                            "insert into review (commit_hash, status, comment, change_author) VALUES (:commit_hash, :status, :comment, :change_author)",
+                            connection, transaction))
+                {
+                    countCommand.Parameters.Add(new NpgsqlParameter("commit_hash", commitHash));
+                    countCommand.Parameters.Add(new NpgsqlParameter("status", status));
+                    countCommand.Parameters.Add(new NpgsqlParameter("comment", comment));
+                    countCommand.Parameters.Add(new NpgsqlParameter("change_author", changeAuthor));
+                    countCommand.ExecuteNonQuery();
+                }
+            }
+            else
+            {
+                using (
+                    var countCommand =
+                        new NpgsqlCommand(
+                            "update review set status=:status, comment=:comment, change_author=:change_author where commit_hash=:commit_hash",
+                            connection, transaction))
+                {
+                    countCommand.Parameters.Add(new NpgsqlParameter("commit_hash", commitHash));
+                    countCommand.Parameters.Add(new NpgsqlParameter("status", status));
+                    countCommand.Parameters.Add(new NpgsqlParameter("comment", comment));
+                    countCommand.Parameters.Add(new NpgsqlParameter("change_author", changeAuthor));
+                    countCommand.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void ChangeStatus(string hash, ReviewStatus reviewStatus, string user)
+        {
+            using (NpgsqlConnection connection = OpenConnection())
+            {
+                using (NpgsqlTransaction transaction = connection.BeginTransaction())
+                {
+                    ReviewInfo reviewInfo = ExecuteGetReviewInfoCommands(hash, connection, transaction);
+                    reviewInfo.Status = reviewStatus;
+                    reviewInfo.ChangeAuthor = user;
+                    ExecuteSaveCommands(reviewInfo, connection, transaction);
                     transaction.Commit();
                 }
             }

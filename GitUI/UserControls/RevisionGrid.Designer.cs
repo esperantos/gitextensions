@@ -72,6 +72,7 @@ namespace GitUI
             this.AuthorDataGridViewColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DateDataGridViewColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mainContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.markRevisionReviewAcceptedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markRevisionAsBadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markRevisionAsGoodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bisectSkipRevisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -249,6 +250,7 @@ namespace GitUI
             // mainContextMenu
             // 
             this.mainContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.markRevisionReviewAcceptedToolStripMenuItem,
             this.markRevisionAsBadToolStripMenuItem,
             this.markRevisionAsGoodToolStripMenuItem,
             this.bisectSkipRevisionToolStripMenuItem,
@@ -280,6 +282,13 @@ namespace GitUI
             this.mainContextMenu.Name = "CreateTag";
             this.mainContextMenu.Size = new System.Drawing.Size(265, 620);
             this.mainContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuOpening);
+            // 
+            // markRevisionReviewAcceptedToolStripMenuItem
+            // 
+            this.markRevisionReviewAcceptedToolStripMenuItem.Name = "markRevisionReviewAcceptedToolStripMenuItem";
+            this.markRevisionReviewAcceptedToolStripMenuItem.Size = new System.Drawing.Size(264, 24);
+            this.markRevisionReviewAcceptedToolStripMenuItem.Text = "Review Accepted";
+            this.markRevisionReviewAcceptedToolStripMenuItem.Click += new System.EventHandler(this.MarkRevisionReviewAcceptedToolStripMenuItemClick);
             // 
             // markRevisionAsBadToolStripMenuItem
             // 
@@ -758,6 +767,7 @@ namespace GitUI
         private System.Windows.Forms.ToolStripMenuItem dateCopyToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem markRevisionReviewAcceptedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem markRevisionAsBadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem markRevisionAsGoodToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopBisectToolStripMenuItem;
