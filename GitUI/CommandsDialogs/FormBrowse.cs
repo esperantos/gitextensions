@@ -149,6 +149,7 @@ namespace GitUI.CommandsDialogs
             RevisionGrid.GitModuleChanged += SetGitModule;
             _filterRevisionsHelper = new FilterRevisionsHelper(toolStripTextBoxFilter, toolStripDropDownButton1, RevisionGrid, toolStripLabel2, this);
             _filterBranchHelper = new FilterBranchHelper(toolStripBranches, toolStripDropDownButton2, RevisionGrid);
+            ReviewControl.RevisionGrid = RevisionGrid;
             reviewStatisticControl.RevisionGrid = RevisionGrid;
             Translate();
 

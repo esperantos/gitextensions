@@ -2385,11 +2385,29 @@ namespace GitUI
                 var db = new ReviewDatabase();
                 var user = Module.GetEffectiveSetting("user.email").ToLower();
                 foreach (var revision in GetSelectedRevisions())
+                {
                     db.ChangeStatus(revision.Guid, ReviewStatus.Accepted, user);
+                    UpdateReviewInfo(new ReviewInfo { CommitHash = revision.Guid, Status = ReviewStatus.Accepted });
+                }
             }
             catch (Exception)
             {
             }
+        }
+
+        public void UpdateReviewInfo(ReviewInfo reviewInfo)
+        {
+            reviews[reviewInfo.CommitHash] = reviewInfo;
+            UpdateRevision(reviewInfo.CommitHash);
+        }
+
+        private void UpdateRevision(string hash)
+        {
+            string graphRevision;
+            int row = TrySearchRevision(hash, out graphRevision);
+            if (row >= 0)
+                foreach (var column in Revisions.Columns)
+                    Revisions.UpdateCellValue(((DataGridViewBand) column).Index, row);
         }
 
         private void MarkRevisionAsBadToolStripMenuItemClick(object sender, EventArgs e)
