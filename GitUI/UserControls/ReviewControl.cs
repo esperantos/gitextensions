@@ -27,6 +27,7 @@ namespace GitUI.UserControls
 				var reviewInfo = database.GetReviewInfo(revision.Guid);
 				statusComboBox.SelectedItem = reviewInfo.Status;
 				reviewCommentTextBox.Text = reviewInfo.Comment;
+                UpdateChangeAuthor(reviewInfo);
 			}
 			catch (Exception exception)
 			{
@@ -34,13 +35,22 @@ namespace GitUI.UserControls
 			}
 		}
 
-		private void saveButton_Click(object sender, EventArgs e)
+	    private void UpdateChangeAuthor(ReviewInfo reviewInfo)
+	    {
+	        statusChangeAuthorLabel.Text = string.IsNullOrWhiteSpace(reviewInfo.ChangeAuthor)
+	            ? "unknown"
+	            : reviewInfo.ChangeAuthor;
+	    }
+
+	    private void saveButton_Click(object sender, EventArgs e)
 		{
 			saveButton.Enabled = false;
 			saveButton.Text = "Saving...";
 			try
 			{
-				new ReviewDatabase().Save(GetReviewInfo());
+			    var reviewInfo = GetReviewInfo();
+			    new ReviewDatabase().Save(reviewInfo);
+                UpdateChangeAuthor(reviewInfo);
 			}
 			catch (Exception exception)
 			{
@@ -57,7 +67,8 @@ namespace GitUI.UserControls
 			{
 				CommitHash=currentRevision.Guid,
 				Status = (ReviewStatus) statusComboBox.SelectedItem,
-				Comment = reviewCommentTextBox.Text
+				Comment = reviewCommentTextBox.Text,
+                ChangeAuthor = Module.GetEffectiveSetting("user.email").ToLower()
 			};
 
 		}

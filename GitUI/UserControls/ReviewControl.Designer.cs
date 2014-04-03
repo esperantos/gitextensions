@@ -33,13 +33,17 @@
             this.statusLabel = new System.Windows.Forms.Label();
             this.statusComboBox = new System.Windows.Forms.ComboBox();
             this.saveButton = new System.Windows.Forms.Button();
+            this.lastChangelabel = new System.Windows.Forms.Label();
+            this.statusChangeAuthorLabel = new System.Windows.Forms.Label();
             this.reviewLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // reviewLayoutPanel
             // 
             this.reviewLayoutPanel.AutoSize = true;
-            this.reviewLayoutPanel.ColumnCount = 3;
+            this.reviewLayoutPanel.ColumnCount = 5;
+            this.reviewLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.reviewLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.reviewLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.reviewLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.reviewLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -47,6 +51,8 @@
             this.reviewLayoutPanel.Controls.Add(this.statusLabel, 0, 0);
             this.reviewLayoutPanel.Controls.Add(this.statusComboBox, 1, 0);
             this.reviewLayoutPanel.Controls.Add(this.saveButton, 2, 0);
+            this.reviewLayoutPanel.Controls.Add(this.lastChangelabel, 3, 0);
+            this.reviewLayoutPanel.Controls.Add(this.statusChangeAuthorLabel, 4, 0);
             this.reviewLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.reviewLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.reviewLayoutPanel.Name = "reviewLayoutPanel";
@@ -58,7 +64,7 @@
             // 
             // reviewCommentTextBox
             // 
-            this.reviewLayoutPanel.SetColumnSpan(this.reviewCommentTextBox, 3);
+            this.reviewLayoutPanel.SetColumnSpan(this.reviewCommentTextBox, 5);
             this.reviewCommentTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.reviewCommentTextBox.Location = new System.Drawing.Point(3, 34);
             this.reviewCommentTextBox.Multiline = true;
@@ -99,6 +105,26 @@
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
+            // lastChangelabel
+            // 
+            this.lastChangelabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lastChangelabel.AutoSize = true;
+            this.lastChangelabel.Location = new System.Drawing.Point(260, 8);
+            this.lastChangelabel.Name = "lastChangelabel";
+            this.lastChangelabel.Size = new System.Drawing.Size(89, 15);
+            this.lastChangelabel.TabIndex = 4;
+            this.lastChangelabel.Text = "Last change by:";
+            // 
+            // statusChangeAuthorLabel
+            // 
+            this.statusChangeAuthorLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.statusChangeAuthorLabel.AutoSize = true;
+            this.statusChangeAuthorLabel.Location = new System.Drawing.Point(355, 8);
+            this.statusChangeAuthorLabel.Name = "statusChangeAuthorLabel";
+            this.statusChangeAuthorLabel.Size = new System.Drawing.Size(109, 15);
+            this.statusChangeAuthorLabel.TabIndex = 5;
+            this.statusChangeAuthorLabel.Text = "art_z@skbkontur.ru";
+            // 
             // ReviewControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -120,5 +146,7 @@
 		private System.Windows.Forms.Label statusLabel;
 		private System.Windows.Forms.ComboBox statusComboBox;
 		private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Label lastChangelabel;
+        private System.Windows.Forms.Label statusChangeAuthorLabel;
 	}
 }
