@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using GitCommands;
+using GitUIPluginInterfaces;
 using Review;
 
 namespace GitUI.UserControls
@@ -17,7 +18,7 @@ namespace GitUI.UserControls
 			statusComboBox.Items.AddRange(Enum.GetValues(typeof(ReviewStatus)).Cast<object>().ToArray());
 		}
 
-		public void SetRevision(GitRevision revision)
+	    public void SetRevision(GitRevision revision)
 		{
 			currentRevision = revision;
 			try

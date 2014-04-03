@@ -216,6 +216,9 @@ namespace GitUI
         [Category("Filter")]
         [DefaultValue("")]
         public string InMemMessageFilter { get; set; }
+
+        public IEnumerable<string> RevisionsFilter { get; set; }
+
         [Category("Filter")]
         [DefaultValue("")]
         public string BranchFilter { get; set; }
@@ -698,8 +701,9 @@ namespace GitUI
             private readonly Regex _MessageFilterRegex;
             private readonly string _ShaFilter;
             private readonly Regex _ShaFilterRegex;
+            private HashSet<string> revisionsFilter;
 
-            public RevisionGridInMemFilter(string authorFilter, string committerFilter, string messageFilter, bool ignoreCase)
+            public RevisionGridInMemFilter(string authorFilter, string committerFilter, string messageFilter, IEnumerable<string> revisionsFilter, bool ignoreCase)
             {
                 SetUpVars(authorFilter, ref _AuthorFilter, ref _AuthorFilterRegex, ignoreCase);
                 SetUpVars(committerFilter, ref _CommitterFilter, ref _CommitterFilterRegex, ignoreCase);
@@ -708,6 +712,8 @@ namespace GitUI
                 {
                     SetUpVars(messageFilter, ref _ShaFilter, ref _ShaFilterRegex, false);
                 }
+                if(revisionsFilter != null)
+                    this.revisionsFilter = new HashSet<string>(revisionsFilter);
             }
 
             private static void SetUpVars(string filterValue,
@@ -737,6 +743,7 @@ namespace GitUI
             public override bool PassThru(GitRevision rev)
             {
                 return CheckCondition(_AuthorFilter, _AuthorFilterRegex, rev.Author) &&
+                        revisionsFilter.Contains(rev.Guid) &&
                        CheckCondition(_CommitterFilter, _CommitterFilterRegex, rev.Committer) &&
                        (CheckCondition(_MessageFilter, _MessageFilterRegex, rev.Message) ||
                         CheckCondition(_ShaFilter, _ShaFilterRegex, rev.Guid));
@@ -745,15 +752,18 @@ namespace GitUI
             public static RevisionGridInMemFilter CreateIfNeeded(string authorFilter,
                                                                  string committerFilter,
                                                                  string messageFilter,
+                                                                 IEnumerable<string> revisionsFilter,
                                                                  bool ignoreCase)
             {
                 if (!(string.IsNullOrEmpty(authorFilter) &&
                       string.IsNullOrEmpty(committerFilter) &&
                       string.IsNullOrEmpty(messageFilter) &&
+                      revisionsFilter == null &&
                       !MessageFilterCouldBeSHA(messageFilter)))
                     return new RevisionGridInMemFilter(authorFilter,
                                                        committerFilter,
                                                        messageFilter,
+                                                       revisionsFilter,
                                                        ignoreCase);
                 else
                     return null;
@@ -873,10 +883,12 @@ namespace GitUI
                 RevisionGridInMemFilter revisionFilterIMF = RevisionGridInMemFilter.CreateIfNeeded(_revisionFilter.GetInMemAuthorFilter(),
                                                                                                    _revisionFilter.GetInMemCommitterFilter(),
                                                                                                    _revisionFilter.GetInMemMessageFilter(),
+                                                                                                   null,
                                                                                                    _revisionFilter.GetIgnoreCase());
                 RevisionGridInMemFilter filterBarIMF = RevisionGridInMemFilter.CreateIfNeeded(InMemAuthorFilter,
                                                                                               InMemCommitterFilter,
                                                                                               InMemMessageFilter,
+                                                                                              RevisionsFilter,
                                                                                               InMemFilterIgnoreCase);
                 RevisionGraphInMemFilter revGraphIMF;
                 if (revisionFilterIMF != null && filterBarIMF != null)

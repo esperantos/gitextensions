@@ -142,7 +142,6 @@ namespace GitUI.CommandsDialogs
                 CommitInfoTabControl.TabPages[1].ImageIndex = 1;
                 CommitInfoTabControl.TabPages[2].ImageIndex = 2;
             }
-
             RevisionGrid.UICommandsSource = this;
             Repositories.LoadRepositoryHistoryAsync();
             Task.Factory.StartNew(PluginLoader.Load)
@@ -150,6 +149,7 @@ namespace GitUI.CommandsDialogs
             RevisionGrid.GitModuleChanged += SetGitModule;
             _filterRevisionsHelper = new FilterRevisionsHelper(toolStripTextBoxFilter, toolStripDropDownButton1, RevisionGrid, toolStripLabel2, this);
             _filterBranchHelper = new FilterBranchHelper(toolStripBranches, toolStripDropDownButton2, RevisionGrid);
+            reviewStatisticControl.RevisionGrid = RevisionGrid;
             Translate();
 
             if (Settings.ShowGitStatusInBrowseToolbar)
@@ -168,6 +168,7 @@ namespace GitUI.CommandsDialogs
             RevisionGrid.SelectionChanged += RevisionGridSelectionChanged;
             DiffText.ExtraDiffArgumentsChanged += DiffTextExtraDiffArgumentsChanged;
             _filterRevisionsHelper.SetFilter(filter);
+            reviewStatisticControl.RefreshStatistic();
             DiffText.SetFileLoader(getNextPatchFile);
 
             GitTree.ImageList = new ImageList();
@@ -215,6 +216,7 @@ namespace GitUI.CommandsDialogs
             if (_dashboard == null || !_dashboard.Visible)
             {
                 RevisionGrid.ForceRefreshRevisions();
+                reviewStatisticControl.RefreshStatistic();
                 InternalInitialize(false);
             }
         }
@@ -1055,22 +1057,22 @@ namespace GitUI.CommandsDialogs
             RevisionInfo.SetRevisionWithChildren(revision, children);
         }
 
-		private void FillReviewInfo()
+        private void FillReviewInfo()
         {
-			if (CommitInfoTabControl.SelectedTab != ReviewTabPage)
-				return;
+            if (CommitInfoTabControl.SelectedTab != ReviewTabPage)
+                return;
 
-			if (selectedRevisionUpdatedTargets.HasFlag(UpdateTargets.ReviewInfo))
-				return;
+            if (selectedRevisionUpdatedTargets.HasFlag(UpdateTargets.ReviewInfo))
+                return;
 
-			selectedRevisionUpdatedTargets |= UpdateTargets.ReviewInfo;
+            selectedRevisionUpdatedTargets |= UpdateTargets.ReviewInfo;
 
-			if (RevisionGrid.GetSelectedRevisions().Count == 0)
-				return;
+            if (RevisionGrid.GetSelectedRevisions().Count == 0)
+                return;
 
-			var revision = RevisionGrid.GetSelectedRevisions()[0];
+            GitRevision revision = RevisionGrid.GetSelectedRevisions()[0];
 
-			ReviewControl.SetRevision(revision);
+            ReviewControl.SetRevision(revision);
         }
 
         private BuildReportTabPageExtension BuildReportTabPageExtension;
@@ -1941,7 +1943,6 @@ namespace GitUI.CommandsDialogs
             HideVariableMainMenuItems();
             UnregisterPlugins();
             UICommands = new GitUICommands(module);
-
             if (Module.IsValidGitWorkingDir())
             {
                 Repositories.AddMostRecentRepository(Module.WorkingDir);

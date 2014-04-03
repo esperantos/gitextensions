@@ -13,6 +13,25 @@ namespace Review
 			return connection;
 		}
 
+	    public ReviewScheme GetReviewScheme()
+	    {
+            var scheme = new ReviewScheme();
+            using (NpgsqlConnection connection = OpenConnection())
+            {
+                using (var command = new NpgsqlCommand("select author, reviewer from review_scheme", connection))
+                {
+                    using (NpgsqlDataReader dr = command.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            scheme.Add(dr.GetString(0), dr.GetString(1));
+                        }
+                    }
+                }
+            }
+            return scheme;
+        }
+
 		public ReviewInfo GetReviewInfo(string commitHash)
 		{
 			using (NpgsqlConnection connection = OpenConnection())

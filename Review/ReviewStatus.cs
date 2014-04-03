@@ -5,5 +5,6 @@ namespace Review
 		Unknown = 0,
 		Accepted = 1,
 		Declined = 2,
+		Corrected = 3,
 	}
 }

@@ -69,7 +69,9 @@ namespace GitUI.CommandsDialogs
             this.toolStripTextBoxFilter = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.revisionsAndStatistcisLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.RevisionGrid = new GitUI.RevisionGrid();
+            this.reviewStatisticControl = new GitUI.UserControls.ReviewStatisticControl();
             this.CommitInfoTabControl = new System.Windows.Forms.TabControl();
             this.CommitInfoTabPage = new System.Windows.Forms.TabPage();
             this.RevisionInfo = new GitUI.CommitInfo.CommitInfo();
@@ -241,6 +243,7 @@ namespace GitUI.CommandsDialogs
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
             this.MainSplitContainer.SuspendLayout();
+            this.revisionsAndStatistcisLayoutPanel.SuspendLayout();
             this.CommitInfoTabControl.SuspendLayout();
             this.CommitInfoTabPage.SuspendLayout();
             this.TreeTabPage.SuspendLayout();
@@ -637,16 +640,42 @@ namespace GitUI.CommandsDialogs
             this.MainSplitContainer.TabIndex = 1;
             this.MainSplitContainer.TabStop = false;
             // 
+            // revisionsAndStatistcisLayoutPanel
+            // 
+            this.revisionsAndStatistcisLayoutPanel.ColumnCount = 2;
+            this.revisionsAndStatistcisLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.revisionsAndStatistcisLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.revisionsAndStatistcisLayoutPanel.Controls.Add(this.RevisionGrid, 0, 0);
+            this.revisionsAndStatistcisLayoutPanel.Controls.Add(this.reviewStatisticControl, 1, 0);
+            this.revisionsAndStatistcisLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.revisionsAndStatistcisLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.revisionsAndStatistcisLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.revisionsAndStatistcisLayoutPanel.Name = "revisionsAndStatistcisLayoutPanel";
+            this.revisionsAndStatistcisLayoutPanel.RowCount = 1;
+            this.revisionsAndStatistcisLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.revisionsAndStatistcisLayoutPanel.Size = new System.Drawing.Size(923, 208);
+            this.revisionsAndStatistcisLayoutPanel.TabIndex = 1;
+            // 
             // RevisionGrid
             // 
             this.RevisionGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.RevisionGrid.Location = new System.Drawing.Point(0, 0);
-            this.RevisionGrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.RevisionGrid.Location = new System.Drawing.Point(3, 4);
+            this.RevisionGrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.RevisionGrid.Name = "RevisionGrid";
             this.RevisionGrid.RevisionGraphDrawStyle = GitUI.RevisionGraphDrawStyleEnum.DrawNonRelativesGray;
             this.RevisionGrid.ShowUncommitedChangesIfPossible = true;
-            this.RevisionGrid.Size = new System.Drawing.Size(1154, 267);
+            this.RevisionGrid.Size = new System.Drawing.Size(641, 200);
             this.RevisionGrid.TabIndex = 0;
+            // 
+            // reviewStatisticControl1
+            // 
+            this.reviewStatisticControl.AutoSize = true;
+            this.reviewStatisticControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.reviewStatisticControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.reviewStatisticControl.Location = new System.Drawing.Point(650, 3);
+            this.reviewStatisticControl.Name = "reviewStatisticControl";
+            this.reviewStatisticControl.Size = new System.Drawing.Size(270, 202);
+            this.reviewStatisticControl.TabIndex = 1;
             // 
             // CommitInfoTabControl
             // 
@@ -2025,6 +2054,8 @@ namespace GitUI.CommandsDialogs
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).EndInit();
 #endif
             this.MainSplitContainer.ResumeLayout(false);
+            this.revisionsAndStatistcisLayoutPanel.ResumeLayout(false);
+            this.revisionsAndStatistcisLayoutPanel.PerformLayout();
             this.CommitInfoTabControl.ResumeLayout(false);
             this.CommitInfoTabPage.ResumeLayout(false);
             this.TreeTabPage.ResumeLayout(false);
@@ -2254,5 +2285,7 @@ namespace GitUI.CommandsDialogs
         private ToolStripSeparator toolStripSeparator7;
 		private TabPage ReviewTabPage;
 		private UserControls.ReviewControl ReviewControl;
+        private TableLayoutPanel revisionsAndStatistcisLayoutPanel;
+        private UserControls.ReviewStatisticControl reviewStatisticControl;
     }
 }

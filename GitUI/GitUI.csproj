@@ -241,6 +241,12 @@
     <Compile Include="UserControls\ReviewControl.Designer.cs">
       <DependentUpon>ReviewControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ReviewStatisticControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ReviewStatisticControl.Designer.cs">
+      <DependentUpon>ReviewStatisticControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\RevisionGridClasses\CopyToClipboardMenuHelper.cs" />
     <Compile Include="UserControls\RevisionGridClasses\CaptionCustomMenuRenderer.cs" />
     <Compile Include="UserControls\RevisionGridClasses\GitRefListsForRevision.cs" />
@@ -1153,6 +1159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ReviewControl.resx">
       <DependentUpon>ReviewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ReviewStatisticControl.resx">
+      <DependentUpon>ReviewStatisticControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\RevisionGridClasses\DvcsGraph.resx">
       <DependentUpon>DvcsGraph.cs</DependentUpon>
