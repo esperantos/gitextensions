@@ -45,6 +45,11 @@ namespace GitUI.UserControls
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            Save();
+        }
+
+        private void Save()
+        {
             saveButton.Enabled = false;
             saveButton.Text = "Saving...";
             try
@@ -82,6 +87,25 @@ namespace GitUI.UserControls
         private ReviewStatus GetSelectedStatus()
         {
             return (ReviewStatus) statusComboBox.SelectedItem;
+        }
+
+        private void reviewCommentTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyValue == (char) Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                e.Handled = true;
+                Save();
+            }
+        }
+
+        private void reviewCommentTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyValue == (char) Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                e.Handled = true;
+            }
         }
     }
 }
