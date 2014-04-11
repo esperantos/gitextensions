@@ -67,10 +67,21 @@ namespace GitUI.UserControls
             return new ReviewInfo
             {
                 CommitHash = currentRevision.Guid,
-                Status = (ReviewStatus) statusComboBox.SelectedItem,
+                Status = GetSelectedStatus(),
                 Comment = reviewCommentTextBox.Text,
                 ChangeAuthor = Module.GetEffectiveSetting("user.email").ToLower()
             };
+        }
+
+        private void reviewCommentTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (GetSelectedStatus() == ReviewStatus.Unknown && char.IsLetterOrDigit(e.KeyChar))
+                statusComboBox.SelectedItem = ReviewStatus.Declined;
+        }
+
+        private ReviewStatus GetSelectedStatus()
+        {
+            return (ReviewStatus) statusComboBox.SelectedItem;
         }
     }
 }

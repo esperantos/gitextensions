@@ -71,6 +71,7 @@
             this.reviewCommentTextBox.Name = "reviewCommentTextBox";
             this.reviewCommentTextBox.Size = new System.Drawing.Size(537, 161);
             this.reviewCommentTextBox.TabIndex = 0;
+            this.reviewCommentTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.reviewCommentTextBox_KeyPress);
             // 
             // statusLabel
             // 
