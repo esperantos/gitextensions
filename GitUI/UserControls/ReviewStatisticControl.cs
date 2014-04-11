@@ -38,13 +38,7 @@ namespace GitUI.UserControls
 
         public RevisionGrid RevisionGrid { get; set; }
 
-        private void collapseLabel_Click(object sender, EventArgs e)
-        {
-            statisticsLayoutPanel.Visible = !statisticsLayoutPanel.Visible;
-            collapseLabel.Text = statisticsLayoutPanel.Visible ? ">" : "<";
-        }
-
-        public void RefreshStatistic()
+		public void RefreshStatistic()
         {
             try
             {
@@ -79,7 +73,7 @@ namespace GitUI.UserControls
         private void UpdateControls()
         {
             forComboBox.Items.Clear();
-            forComboBox.Items.AddRange(reviewStatistics.Keys.ToArray());
+            forComboBox.Items.AddRange(reviewStatistics.Keys.Union(reviewScheme.Revievers).ToArray());
             string userEmail = Module.GetEffectiveSetting("user.email").ToLower();
             if (reviewStatistics.ContainsKey(userEmail))
                 forComboBox.SelectedItem = userEmail;
@@ -123,7 +117,7 @@ namespace GitUI.UserControls
         private void OnNewRevision(object sender, EventArgs e)
         {
             GitRevision revision = ((RevisionGraph.RevisionGraphUpdatedEventArgs) e).Revision;
-            if (revision != null && revision.CommitDate.Date >= fromDatePicker.Value.Date)
+            if (revision != null && revision.AuthorDate.Date >= fromDatePicker.Value.Date)
                 revisions.Add(revision);
         }
 

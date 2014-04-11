@@ -7,6 +7,11 @@ namespace Review
     {
         private readonly IDictionary<string, string> scheme = new Dictionary<string, string>();
 
+        public IEnumerable<string> Revievers
+        {
+            get { return scheme.Values.Distinct(); }
+        }
+
         public void Add(string author, string reviewer)
         {
             scheme.Add(author.ToLower(), reviewer.ToLower());

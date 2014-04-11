@@ -1422,7 +1422,7 @@ namespace GitUI
                                 backColor = Color.DarkGreen;
                                 break;
                             case "D":
-                                backColor = Color.Maroon;
+                                backColor = Color.DarkRed;
                                 break;
                             case "C":
                                 backColor = Color.DarkOrange;
