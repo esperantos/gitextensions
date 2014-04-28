@@ -21,19 +21,25 @@ namespace GitUI.UserControls
         {
             InitializeComponent();
             Translate();
-            filterCheckboxes = new[] {newCheckBox, correctedCheckBox, notReviewedCheckBox, declinedCheckBox};
+            filterCheckboxes = new[] {newCheckBox, correctedCheckBox, notReviewedCheckBox, declinedCheckBox, acceptedCheckBox, myAcceptedCheckBox};
             newCheckBox.Tag =
                 new Func<IEnumerable<string>>(() => GetRevisionsForReview(GetSelectedDeveloper()).NotReviewed);
             correctedCheckBox.Tag =
                 new Func<IEnumerable<string>>(() => GetRevisionsForReview(GetSelectedDeveloper()).Corrected);
+            acceptedCheckBox.Tag =
+                new Func<IEnumerable<string>>(() => GetRevisionsForReview(GetSelectedDeveloper()).Accepted);
             notReviewedCheckBox.Tag =
                 new Func<IEnumerable<string>>(() => GetRevisionsForAttention(GetSelectedDeveloper()).NotReviewed);
             declinedCheckBox.Tag =
                 new Func<IEnumerable<string>>(() => GetRevisionsForAttention(GetSelectedDeveloper()).Declined);
+            myAcceptedCheckBox.Tag =
+                new Func<IEnumerable<string>>(() => GetRevisionsForAttention(GetSelectedDeveloper()).Accepted);
             newCountLinkLabel.Tag = newCheckBox;
             correctedCountLinkLabel.Tag = correctedCheckBox;
+            acceptedCountLinkLabel.Tag = acceptedCheckBox;
             notReviewedCountLinkLabel.Tag = notReviewedCheckBox;
             declinedCountLinkLabel.Tag = declinedCheckBox;
+            myAcceptedCountLinkLabel.Tag = myAcceptedCheckBox;
         }
 
         public RevisionGrid RevisionGrid { get; set; }
@@ -94,6 +100,7 @@ namespace GitUI.UserControls
                             statistic.NotReviewed.Add(hash);
                             break;
                         case ReviewStatus.Accepted:
+                            statistic.Accepted.Add(hash);
                             break;
                         case ReviewStatus.Declined:
                             statistic.Declined.Add(hash);
@@ -130,14 +137,17 @@ namespace GitUI.UserControls
         {
             newCountLinkLabel.Text = "–";
             notReviewedCountLinkLabel.Text = "–";
+            acceptedCountLinkLabel.Text = "–";
             declinedCountLinkLabel.Text = "–";
             correctedCountLinkLabel.Text = "–";
+            myAcceptedCountLinkLabel.Text = "–";
             careLabel.Text = string.Format(careLabelPattern, string.Empty);
 
             string selectedDeveloper = GetSelectedDeveloper();
             ReviewStatistic toReview = GetRevisionsForReview(selectedDeveloper);
             newCountLinkLabel.Text = toReview.NotReviewed.Count.ToString();
             correctedCountLinkLabel.Text = toReview.Corrected.Count.ToString();
+            acceptedCountLinkLabel.Text = toReview.Accepted.Count.ToString();
 
             ReviewStatistic toAttention = GetRevisionsForAttention(selectedDeveloper);
             if (!string.IsNullOrWhiteSpace(selectedDeveloper))
@@ -145,6 +155,7 @@ namespace GitUI.UserControls
                     selectedDeveloper.Substring(0, selectedDeveloper.IndexOf('@')));
             declinedCountLinkLabel.Text = toAttention.Declined.Count.ToString();
             notReviewedCountLinkLabel.Text = toAttention.NotReviewed.Count.ToString();
+            myAcceptedCountLinkLabel.Text = toAttention.Accepted.Count.ToString();
         }
 
         private ReviewStatistic GetRevisionsForAttention(string selectedDeveloper)
@@ -212,8 +223,10 @@ namespace GitUI.UserControls
                 NotReviewed = new List<string>();
                 Declined = new List<string>();
                 Corrected = new List<string>();
+                Accepted = new List<string>();
             }
 
+            public List<string> Accepted{ get; private set; }
             public List<string> NotReviewed { get; private set; }
             public List<string> Declined { get; private set; }
             public List<string> Corrected { get; private set; }
@@ -223,6 +236,7 @@ namespace GitUI.UserControls
                 NotReviewed.AddRange(reviewStatistic.NotReviewed);
                 Declined.AddRange(reviewStatistic.Declined);
                 Corrected.AddRange(reviewStatistic.Corrected);
+                Accepted.AddRange(reviewStatistic.Accepted);
                 return this;
             }
         }
