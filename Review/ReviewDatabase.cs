@@ -7,9 +7,7 @@ namespace Review
     {
         private NpgsqlConnection OpenConnection()
         {
-            var connection =
-                new NpgsqlConnection(
-                    "Server=kelite-yt-board;Port=5432;User Id=postgres;Password=kelite123;Database=review;");
+            var connection = new NpgsqlConnection(ReviewSettings.ConnectionString);
             connection.Open();
             return connection;
         }

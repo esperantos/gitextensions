@@ -72,7 +72,8 @@ namespace GitUI
             this.AuthorDataGridViewColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DateDataGridViewColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mainContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.markRevisionReviewAcceptedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reviewSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.markRevisionAsBadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markRevisionAsGoodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bisectSkipRevisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -250,7 +251,7 @@ namespace GitUI
             // mainContextMenu
             // 
             this.mainContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.markRevisionReviewAcceptedToolStripMenuItem,
+            this.reviewToolStripMenuItem,
             this.markRevisionAsBadToolStripMenuItem,
             this.markRevisionAsGoodToolStripMenuItem,
             this.bisectSkipRevisionToolStripMenuItem,
@@ -283,12 +284,20 @@ namespace GitUI
             this.mainContextMenu.Size = new System.Drawing.Size(265, 620);
             this.mainContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuOpening);
             // 
-            // markRevisionReviewAcceptedToolStripMenuItem
+            // reviewSeparator
             // 
-            this.markRevisionReviewAcceptedToolStripMenuItem.Name = "markRevisionReviewAcceptedToolStripMenuItem";
-            this.markRevisionReviewAcceptedToolStripMenuItem.Size = new System.Drawing.Size(264, 24);
-            this.markRevisionReviewAcceptedToolStripMenuItem.Text = "Review Accepted";
-            this.markRevisionReviewAcceptedToolStripMenuItem.Click += new System.EventHandler(this.MarkRevisionReviewAcceptedToolStripMenuItemClick);
+            this.reviewSeparator.Name = "reviewSeparator";
+            this.reviewSeparator.Size = new System.Drawing.Size(261, 6);
+            // 
+            // reviewToolStripMenuItem
+            // 
+            this.reviewToolStripMenuItem.Name = "reviewToolStripMenuItem";
+            this.reviewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            reviewSeparator});
+            this.reviewToolStripMenuItem.Size = new System.Drawing.Size(264, 24);
+            this.reviewToolStripMenuItem.Text = "Review";
+            this.reviewToolStripMenuItem.DropDownOpening += new System.EventHandler(ReviewToolStripMenuItemDropDownOpening);
+            this.reviewToolStripMenuItem.DropDownClosed += new System.EventHandler(ReviewToolStripMenuItemDropDownClosed);
             // 
             // markRevisionAsBadToolStripMenuItem
             // 
@@ -725,7 +734,6 @@ namespace GitUI
             ((System.ComponentModel.ISupportInitialize)(this.Error)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Loading)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -767,7 +775,8 @@ namespace GitUI
         private System.Windows.Forms.ToolStripMenuItem dateCopyToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripMenuItem markRevisionReviewAcceptedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reviewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator reviewSeparator;
         private System.Windows.Forms.ToolStripMenuItem markRevisionAsBadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem markRevisionAsGoodToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopBisectToolStripMenuItem;

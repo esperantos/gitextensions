@@ -2395,21 +2395,16 @@ namespace GitUI
             Clipboard.SetText(GetRevision(LastRow).Guid);
         }
 
-        private void MarkRevisionReviewAcceptedToolStripMenuItemClick(object sender, EventArgs e)
+        void ReviewToolStripMenuItemDropDownOpening(object sender, EventArgs e)
         {
-            try
-            {
-                var db = new ReviewDatabase();
-                var user = Module.GetEffectiveSetting("user.email").ToLower();
-                foreach (var revision in GetSelectedRevisions())
-                {
-                    db.ChangeStatus(revision.Guid, ReviewStatus.Accepted, user);
-                    UpdateReviewInfo(new ReviewInfo { CommitHash = revision.Guid, Status = ReviewStatus.Accepted });
-                }
-            }
-            catch (Exception)
-            {
-            }
+            var revisions = GetSelectedRevisions();
+            var user = Module.GetEffectiveSetting("user.email").ToLower();
+            ReviewContextMenuHelper.SetReviewMenuItems(reviewToolStripMenuItem, user, revisions, Properties.Resources.bug, UpdateReviewInfo);
+        }
+
+        void ReviewToolStripMenuItemDropDownClosed(object sender, EventArgs e)
+        {
+            ReviewContextMenuHelper.ClearReviewMenuItems(reviewToolStripMenuItem);
         }
 
         public void UpdateReviewInfo(ReviewInfo reviewInfo)
