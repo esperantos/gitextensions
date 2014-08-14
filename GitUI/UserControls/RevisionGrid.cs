@@ -2399,7 +2399,8 @@ namespace GitUI
         {
             var revisions = GetSelectedRevisions();
             var user = Module.GetEffectiveSetting("user.email").ToLower();
-            ReviewContextMenuHelper.SetReviewMenuItems(reviewToolStripMenuItem, user, revisions, Properties.Resources.bug, UpdateReviewInfo);
+            ReviewContextMenuHelper.SetReviewMenuItems(reviewToolStripMenuItem, user, revisions,
+                Properties.Resources.IconClean, Properties.Resources.bug, UpdateReviewInfo);
         }
 
         void ReviewToolStripMenuItemDropDownClosed(object sender, EventArgs e)

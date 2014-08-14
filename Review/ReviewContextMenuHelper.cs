@@ -12,7 +12,7 @@ namespace Review
     public class ReviewContextMenuHelper
     {
         public static void SetReviewMenuItems(ToolStripMenuItem reviewMenuItem, string user, List<GitRevision> revisions,
-            Bitmap bugIcon, Action<ReviewInfo> updateReviewInfoUi = null)
+            Bitmap acceptIcon, Bitmap bugIcon, Action<ReviewInfo> updateReviewInfoUi = null)
         {
             reviewMenuItem.DropDownItems.Clear();
             if (revisions.Count == 0) return;
@@ -20,6 +20,7 @@ namespace Review
             var reviewAccepted = new ToolStripMenuItem
             {
                 Name = "reviewAccepted",
+                Image = acceptIcon,
                 Text = multipleCommits ? "Accept commits" : "Accept commit"
             };
             reviewAccepted.Click += (sender, e) => AcceptRevisions(user, revisions, updateReviewInfoUi);

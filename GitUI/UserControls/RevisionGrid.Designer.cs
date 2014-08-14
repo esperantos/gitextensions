@@ -295,6 +295,7 @@ namespace GitUI
             this.reviewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             reviewSeparator});
             this.reviewToolStripMenuItem.Size = new System.Drawing.Size(264, 24);
+			this.reviewToolStripMenuItem.Image = global::GitUI.Properties.Resources.IconPreview;
             this.reviewToolStripMenuItem.Text = "Review";
             this.reviewToolStripMenuItem.DropDownOpening += new System.EventHandler(ReviewToolStripMenuItemDropDownOpening);
             this.reviewToolStripMenuItem.DropDownClosed += new System.EventHandler(ReviewToolStripMenuItemDropDownClosed);
