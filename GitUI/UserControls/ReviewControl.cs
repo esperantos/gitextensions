@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using GitCommands;
@@ -38,9 +39,16 @@ namespace GitUI.UserControls
 
         private void UpdateChangeAuthor(ReviewInfo reviewInfo)
         {
-            statusChangeAuthorLabel.Text = string.IsNullOrWhiteSpace(reviewInfo.ChangeAuthor)
-                ? "unknown"
-                : reviewInfo.ChangeAuthor;
+            string authorText = string.IsNullOrWhiteSpace(reviewInfo.ChangeAuthor)
+                ? "unknown" : reviewInfo.ChangeAuthor;
+            var timeHints = new List<string>();
+            if (reviewInfo.CreateTime != null)
+                timeHints.Add(string.Format("created: {0:yyyy-MM-dd HH:mm}", reviewInfo.CreateTime.Value));
+            if (reviewInfo.UpdateTime != null)
+                timeHints.Add(string.Format("updated: {0:yyyy-MM-dd HH:mm}", reviewInfo.UpdateTime.Value));
+            statusChangeAuthorLabel.Text = timeHints.Count == 0 
+                ? authorText
+                : string.Format("{0} ({1})", authorText, string.Join(", ", timeHints.ToArray()));
         }
 
         private void saveButton_Click(object sender, EventArgs e)

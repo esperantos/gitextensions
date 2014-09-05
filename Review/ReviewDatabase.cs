@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Npgsql;
 
 namespace Review
@@ -44,7 +45,7 @@ namespace Review
         {
             using (
                 var command = new NpgsqlCommand(
-                    "select commit_hash, status, comment, change_author from review where commit_hash = :commit_hash",
+                    "select commit_hash, status, comment, change_author, create_time, update_time from review where commit_hash = :commit_hash",
                     connection, transaction))
             {
                 command.Parameters.Add(new NpgsqlParameter("commit_hash", commitHash));
@@ -58,6 +59,8 @@ namespace Review
                             Status = (ReviewStatus) dr.GetInt32(1),
                             Comment = dr.IsDBNull(2) ? null : dr.GetString(2),
                             ChangeAuthor = dr.IsDBNull(3) ? null : dr.GetString(3),
+                            CreateTime = dr.IsDBNull(4) ? (DateTime?) null : dr.GetDateTime(4),
+                            UpdateTime = dr.IsDBNull(5) ? (DateTime?) null : dr.GetDateTime(5),
                         };
                     }
                 }
