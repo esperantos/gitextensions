@@ -23,8 +23,9 @@ CREATE TABLE "public"."review" (
 	"update_time" timestamp DEFAULT now()
 )
 GO
+
 CREATE TRIGGER "update_review"
-	AFTER UPDATE
+	BEFORE UPDATE
 	ON review
 	FOR EACH ROW
 	EXECUTE PROCEDURE update_review_time();
