@@ -45,7 +45,8 @@ namespace GitUI.UserControls
             if (reviewInfo.CreateTime != null)
                 timeHints.Add(string.Format("created: {0:yyyy-MM-dd HH:mm}", reviewInfo.CreateTime.Value));
             if (reviewInfo.UpdateTime != null)
-                timeHints.Add(string.Format("updated: {0:yyyy-MM-dd HH:mm}", reviewInfo.UpdateTime.Value));
+                if (reviewInfo.CreateTime == null || reviewInfo.UpdateTime.Value != reviewInfo.CreateTime.Value)
+                    timeHints.Add(string.Format("updated: {0:yyyy-MM-dd HH:mm}", reviewInfo.UpdateTime.Value));
             statusChangeAuthorLabel.Text = timeHints.Count == 0 
                 ? authorText
                 : string.Format("{0} ({1})", authorText, string.Join(", ", timeHints.ToArray()));
