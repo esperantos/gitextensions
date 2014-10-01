@@ -68,12 +68,23 @@ namespace Review
             if (ReviewSettings.BugTraqRegex == null || ReviewSettings.BugTraqRegex.Length == 0)
                 return new List<string>();
             var bugIds = new List<string>();
-            List<Regex> regexes = ReviewSettings.BugTraqRegex.Select(bugtraqRegexStr => new Regex(bugtraqRegexStr)).ToList();
-            foreach (GitRevision revision in revisions)
+            List<Regex> regexes = ReviewSettings.BugTraqRegex.Select(bugtraqRegexStr => new Regex(bugtraqRegexStr, RegexOptions.Multiline)).ToList();
+            foreach (string input in GetBugTextInputs(revisions))
                 foreach (Regex regex in regexes)
-                    foreach (Match match in regex.Matches(revision.Message))
+                    foreach (Match match in regex.Matches(input))
                         bugIds.Add(match.Value);
             return bugIds.Distinct().ToList();
+        }
+
+        private static List<string> GetBugTextInputs(IEnumerable<GitRevision> revisions)
+        {
+            List<string> inputs = new List<string>();
+            foreach (GitRevision revision in revisions)
+            {
+                if (revision.Message != null) inputs.Add(revision.Message);
+                if (revision.Body != null) inputs.Add(revision.Body);
+            }
+            return inputs;
         }
     }
 }
